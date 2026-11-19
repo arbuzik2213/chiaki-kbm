@@ -42,7 +42,7 @@ echo "==> KWin focus script (auto on/off when chiaki-ng is focused)"
 if command -v kpackagetool6 >/dev/null; then
     kpackagetool6 --type=KWin/Script -i kwin >/dev/null 2>&1 || kpackagetool6 --type=KWin/Script -u kwin >/dev/null
     kwriteconfig6 --file kwinrc --group Plugins --key chiakikbmEnabled true
-    (qdbus6 org.kde.KWin /KWin reconfigure || qdbus org.kde.KWin /KWin reconfigure) >/dev/null 2>&1 || true
+    gdbus call --session --dest org.kde.KWin --object-path /KWin --method org.kde.KWin.reconfigure >/dev/null 2>&1 || true
 else
     echo "   Not KDE Plasma: no auto-activation. Edit the service to add --always-on and use F8 to pause."
 fi
@@ -58,9 +58,11 @@ fi
 
 if [ "$NEED_RELOGIN" = 1 ]; then
     echo
-    echo "Done. LOG OUT AND LOG BACK IN once (new 'input' group), chiaki-kbm then starts by itself."
-else
-    systemctl --user restart chiaki-kbm.service
+    echo "Done. chiaki-kbm is running. (Log out/in once at some point so the input group applies everywhere.)"
+fi
+# 'sg input' lets the service work right away, before the next login picks up the new group
+systemctl --user restart chiaki-kbm.service
+if true; then
     echo
     echo "Done. chiaki-kbm is running. Focus the chiaki-ng window to play."
 fi
