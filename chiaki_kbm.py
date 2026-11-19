@@ -200,7 +200,8 @@ class Engine:
 		self.wheel_until = {}      # WHEEL_UP/DOWN -> release time
 		self.forwarding = set()    # keys forwarded to the desktop while grabbed
 		self.focus_chiaki = False
-		self.paused = False
+		self.armed = False         # user turned control on with F8 (never automatic)
+		self.ctrl_down = set()
 		self.grabbed = False
 		self.devices = {}
 		self.sel = selectors.DefaultSelector()
@@ -265,11 +266,11 @@ class Engine:
 		self.mouse.reset()
 		self._release_forwarded()
 		self.pad.release()
-		notify(f"Управление PS5: ВКЛ ({self.p.mode_names.get(self.mode, self.mode)})" if on
-			else "Управление PS5: выкл")
+		notify(f"Управление PS5 ВКЛ ({self.p.mode_names.get(self.mode, self.mode)}). Вернуть мышь: F8 или Ctrl+Esc" if on
+			else "Управление PS5 выкл, мышь снова обычная")
 
 	def update_grab(self):
-		self.set_grab(self.focus_chiaki and not self.paused)
+		self.set_grab(self.focus_chiaki and self.armed)
 
 	# ----- passthrough for Alt/Super combos so Alt+Tab still works -----
 
@@ -292,10 +293,19 @@ class Engine:
 	def on_key(self, code, value):
 		if value == 2:  # autorepeat
 			return
+		# Panic: Ctrl+Esc always gives keyboard and mouse back
+		if code == e.KEY_ESC and value == 1 and ({e.KEY_LEFTCTRL, e.KEY_RIGHTCTRL} & self.ctrl_down):
+			self.armed = False
+			self.update_grab()
+			return
+		if code in (e.KEY_LEFTCTRL, e.KEY_RIGHTCTRL):
+			(self.ctrl_down.add if value else self.ctrl_down.discard)(code)
 		if code == self.p.toggle_key and value == 1:
-			self.paused = not self.paused
-			if self.focus_chiaki:
-				self.update_grab()
+			if not self.focus_chiaki and not self.grabbed:
+				notify("Сначала открой окно chiaki-ng, потом F8")
+				return
+			self.armed = not self.armed
+			self.update_grab()
 			return
 		if not self.grabbed:
 			return
@@ -398,7 +408,10 @@ class Engine:
 				focused = "chiaki" in info.lower()
 				if focused != self.focus_chiaki:
 					self.focus_chiaki = focused
-					self.paused = False
+					if not focused:
+						self.armed = False  # leaving the window always gives the mouse back
+					elif not self.grabbed:
+						notify("chiaki-ng: нажми F8, чтобы включить управление")
 					self.update_grab()
 
 			timeout = max(0.0, next_tick - time.monotonic())
@@ -475,6 +488,7 @@ def main():
 	start_dbus(engine)
 	if args.always_on:
 		engine.set_focus("chiaki")
+		engine.armed = True
 	try:
 		engine.run()
 	except KeyboardInterrupt:
