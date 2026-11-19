@@ -1,0 +1,12 @@
+{
+    "KPlugin": {
+        "Id": "chiakikbm",
+        "Name": "chiaki-kbm focus",
+        "Description": "Tells chiaki-kbm when the chiaki-ng window is focused",
+        "License": "MIT",
+        "Version": "1.0"
+    },
+    "X-Plasma-API": "javascript",
+    "X-Plasma-MainScript": "code/main.js",
+    "KPackageStructure": "KWin/Script"
+}

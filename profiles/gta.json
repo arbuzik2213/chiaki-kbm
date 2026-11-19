@@ -1,0 +1,84 @@
+{
+	"name": "GTA (PS5)",
+	"_about": "Layout follows the GTA V PS5 controller scheme (PC-style keys). If GTA 6 moves an action to another button, change it here. Key names: https://github.com/torvalds/linux/blob/master/include/uapi/linux/input-event-codes.h",
+	"pause_key": "KEY_F8",
+	"turbo_hz": 8,
+	"start_mode": "foot",
+	"mode_names": { "foot": "Режим: пешком", "vehicle": "Режим: в машине" },
+
+	"mouse": {
+		"sensitivity": 1.0,
+		"smoothing_ms": 14,
+		"curve": 0.85,
+		"anti_deadzone": 0.22,
+		"y_ratio": 1.0,
+		"invert_y": false
+	},
+
+	"global": {
+		"KEY_F2": "mode:toggle",
+		"KEY_ESC": "OPTIONS",
+		"KEY_HOME": "PS",
+		"KEY_GRAVE": "SHARE",
+		"KEY_V": "TOUCHPAD",
+		"KEY_ENTER": "CROSS",
+		"KEY_BACKSPACE": "CIRCLE",
+		"KEY_UP": "DPAD_UP",
+		"KEY_DOWN": "DPAD_DOWN",
+		"KEY_LEFT": "DPAD_LEFT",
+		"KEY_RIGHT": "DPAD_RIGHT",
+		"KEY_1": "DPAD_UP",
+		"KEY_2": "DPAD_RIGHT",
+		"KEY_3": "DPAD_DOWN",
+		"KEY_4": "DPAD_LEFT"
+	},
+
+	"modes": {
+		"foot": {
+			"KEY_W": "LS_UP",
+			"KEY_S": "LS_DOWN",
+			"KEY_A": "LS_LEFT",
+			"KEY_D": "LS_RIGHT",
+			"KEY_LEFTSHIFT": "CROSS@turbo",
+			"KEY_CAPSLOCK": "WALK",
+			"KEY_LEFTCTRL": "L3",
+			"KEY_SPACE": "SQUARE",
+			"KEY_R": "CIRCLE",
+			"KEY_F": ["TRIANGLE", "mode:vehicle"],
+			"KEY_E": "DPAD_RIGHT",
+			"KEY_Q": "R1",
+			"KEY_TAB": "L1",
+			"KEY_C": "R3",
+			"BTN_LEFT": "R2",
+			"BTN_RIGHT": "L2",
+			"BTN_MIDDLE": "R3",
+			"BTN_SIDE": "CIRCLE",
+			"BTN_EXTRA": "TRIANGLE",
+			"WHEEL_UP": "DPAD_LEFT",
+			"WHEEL_DOWN": "DPAD_RIGHT"
+		},
+		"vehicle": {
+			"KEY_W": ["R2", "LS_UP"],
+			"KEY_S": ["L2", "LS_DOWN"],
+			"KEY_A": "LS_LEFT",
+			"KEY_D": "LS_RIGHT",
+			"KEY_SPACE": "R1",
+			"KEY_LEFTSHIFT": "CROSS",
+			"KEY_F": ["TRIANGLE", "mode:foot"],
+			"KEY_E": "L3",
+			"KEY_C": "R3",
+			"KEY_Q": "DPAD_LEFT",
+			"KEY_H": "DPAD_RIGHT",
+			"KEY_R": "CIRCLE",
+			"KEY_TAB": "L1",
+			"KEY_LEFTCTRL": "SQUARE",
+			"BTN_LEFT": "L1",
+			"BTN_RIGHT": "R3",
+			"BTN_MIDDLE": "L3",
+			"BTN_SIDE": "CIRCLE",
+			"BTN_EXTRA": "TRIANGLE",
+			"WHEEL_UP": "DPAD_LEFT",
+			"WHEEL_DOWN": "DPAD_RIGHT"
+		}
+	}
+}
