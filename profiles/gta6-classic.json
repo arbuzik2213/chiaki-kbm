@@ -1,0 +1,90 @@
+{
+	"name": "GTA 6 (PS5, Classic scheme) with GTA V PC keys",
+	"_about": "For GTA 6 with Settings > Control Scheme > Classic (run on Cross, jump on Square, melee on Circle, crouch on L3).",
+	"pause_key": "KEY_F8",
+	"turbo_hz": 8,
+	"start_mode": "foot",
+	"mode_names": {
+		"foot": "Режим: пешком",
+		"vehicle": "Режим: в машине"
+	},
+	"mouse": {
+		"sensitivity": 1.0,
+		"smoothing_ms": 14,
+		"curve": 0.85,
+		"anti_deadzone": 0.22,
+		"y_ratio": 1.0,
+		"invert_y": false
+	},
+	"global": {
+		"KEY_F2": "mode:toggle",
+		"KEY_ESC": "OPTIONS",
+		"KEY_P": "OPTIONS",
+		"KEY_M": "TOUCHPAD",
+		"KEY_HOME": "PS",
+		"KEY_GRAVE": "SHARE",
+		"KEY_ENTER": "CROSS",
+		"KEY_BACKSPACE": "CIRCLE",
+		"KEY_UP": "DPAD_UP",
+		"KEY_DOWN": "DPAD_DOWN",
+		"KEY_LEFT": "DPAD_LEFT",
+		"KEY_RIGHT": "DPAD_RIGHT",
+		"KEY_Z": "DPAD_DOWN"
+	},
+	"modes": {
+		"foot": {
+			"KEY_W": "LS_UP",
+			"KEY_S": "LS_DOWN",
+			"KEY_A": "LS_LEFT",
+			"KEY_D": "LS_RIGHT",
+			"KEY_LEFTSHIFT": "CROSS@turbo",
+			"KEY_CAPSLOCK": "WALK",
+			"KEY_SPACE": "SQUARE",
+			"KEY_LEFTCTRL": "L3",
+			"KEY_R": "CIRCLE",
+			"KEY_E": "TRIANGLE",
+			"KEY_F": [
+				"TRIANGLE",
+				"mode:vehicle"
+			],
+			"KEY_Q": "R1",
+			"KEY_TAB": "L1",
+			"KEY_C": "R3",
+			"KEY_G": "DPAD_RIGHT",
+			"KEY_DOT": "DPAD_LEFT",
+			"BTN_LEFT": "R2",
+			"BTN_RIGHT": "L2",
+			"BTN_MIDDLE": "R3",
+			"BTN_SIDE": "CIRCLE",
+			"BTN_EXTRA": "TRIANGLE"
+		},
+		"vehicle": {
+			"KEY_W": [
+				"R2",
+				"LS_UP"
+			],
+			"KEY_S": [
+				"L2",
+				"LS_DOWN"
+			],
+			"KEY_A": "LS_LEFT",
+			"KEY_D": "LS_RIGHT",
+			"KEY_SPACE": "CROSS",
+			"KEY_E": "L3",
+			"KEY_LEFTSHIFT": "L3",
+			"KEY_F": [
+				"TRIANGLE",
+				"mode:foot"
+			],
+			"KEY_H": "CIRCLE",
+			"KEY_R": "SQUARE",
+			"KEY_C": "R3",
+			"KEY_Q": "DPAD_LEFT",
+			"KEY_DOT": "DPAD_LEFT",
+			"BTN_LEFT": "R1",
+			"BTN_MIDDLE": "R3",
+			"BTN_SIDE": "SQUARE",
+			"BTN_EXTRA": "TRIANGLE"
+		}
+	}
+}

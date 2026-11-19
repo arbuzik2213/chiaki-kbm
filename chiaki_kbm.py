@@ -187,6 +187,7 @@ def notify(text):
 
 class Engine:
 	TICK = 0.004  # 250 Hz
+	PULSE = 0.06  # length of one @tap press and of the gap between presses
 
 	def __init__(self, profile, verbose=False):
 		self.p = profile
@@ -205,6 +206,7 @@ class Engine:
 		self.sel = selectors.DefaultSelector()
 		self.lock = threading.Lock()
 		self.pending_focus = None
+		self.pulses = []           # (button, t_on, t_off) for @tapN actions
 		self.last_scan = 0.0
 
 	# ----- devices -----
@@ -308,8 +310,14 @@ class Engine:
 			self.held.discard(code)
 
 	def run_instant(self, code):
-		"""Mode switches fire on press."""
+		"""Mode switches and @tapN pulses fire on press."""
 		for action in self.binds().get(code, []) + self.p.global_binds.get(code, []):
+			if "@tap" in action:
+				name, n = action.split("@tap")
+				t = time.monotonic()
+				for i in range(int(n or 1)):
+					self.pulses.append((name, t + i * 2 * self.PULSE, t + (i * 2 + 1) * self.PULSE))
+				continue
 			if action.startswith("mode:"):
 				target = action[5:]
 				names = list(self.p.modes)
@@ -339,7 +347,7 @@ class Engine:
 		table = self.binds()
 		for code in active:
 			for action in table.get(code, []) + self.p.global_binds.get(code, []):
-				if action.startswith("mode:"):
+				if action.startswith("mode:") or "@tap" in action:
 					continue
 				if action == "WALK":
 					walk = 0.45
@@ -355,6 +363,10 @@ class Engine:
 				elif name in STICK_DIRS:
 					axis, sign = STICK_DIRS[name]
 					sticks[axis] += sign
+		self.pulses = [p for p in self.pulses if p[2] > now]
+		for name, t_on, t_off in self.pulses:
+			if t_on <= now < t_off:
+				(buttons if name in PAD_BUTTONS else triggers).add(name)
 		# normalize keyboard diagonals
 		for x, y in (("lx", "ly"), ("rx", "ry")):
 			m = (sticks[x] ** 2 + sticks[y] ** 2) ** 0.5
